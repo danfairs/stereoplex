@@ -54,9 +54,6 @@
         {% cache 3600 "base.navbars" %}
         {% navbars %}
         {% endcache %}
-        <form action="/search/" method="GET">
-          <input type="text" name="q" value="{{ search_term }}" /><input type="submit" class="button" value="Search" />
-        </form>
       </div>
       <!-- /nav -->
 
@@ -70,9 +67,14 @@
     <!-- /content -->
 
     <div id="right-rail">
+    <h4>{% trans "Search" %}</h4>
+    <form action="/search/" method="GET">
+      <input type="text" name="q" value="{{ search_term }}" /><input type="submit" class="button" value="Search" />
+    </form>
+
     <h4>{% trans "About" %}</h4>
     <p>{{ BLOG_SETTINGS.about }}</p>
-
+    
     <h4>Subscribe</h4>
     <ul>
       <li><a href="{{ BLOG_SETTINGS.twitter_url }}" title="Follow me on Twitter">Twitter</a></li>
