@@ -11,3 +11,21 @@ body {
     text-indent: -9999px;
     float: left;   
 }
+
+#header {
+    background: transparent url("../../img/rocks.jpg") no-repeat;
+    width: 800px;
+    height: 230px;
+}
+
+blockquote {
+	background: #f5f5f5;
+	border-left: 0.8em solid #ccc;
+	font: italic 110% "Myriad Pro", "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;;
+	padding: 0.75em;    
+}
+
+div.content {
+    width: 600px;
+    float: left;
+}
