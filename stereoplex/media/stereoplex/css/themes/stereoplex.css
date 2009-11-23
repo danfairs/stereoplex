@@ -1,0 +1,13 @@
+body {
+    font-family: "Myriad Pro", "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+    font-size: 100%;
+}
+
+#logo h1 a {
+    background: transparent url("../../img/stereoplex-vertical.png") no-repeat; 
+    display: block;
+    height: 448px;
+    width: 100px;
+    text-indent: -9999px;
+    float: left;   
+}
