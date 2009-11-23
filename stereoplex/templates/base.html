@@ -24,7 +24,6 @@
     {% endblock %}
 
     {% compress css %}
-    <link rel="stylesheet" href="{{ STATIC_URL }}mingus/css/960.css" type="text/css" media="all" charset="utf-8">
     <link rel="stylesheet" href="{{ STATIC_URL }}mingus/css/pygments.css" type="text/css" media="all" charset="utf-8">
     <link rel="stylesheet" href="{{ STATIC_URL }}mingus/css/base.css" type="text/css" media="all" charset="utf-8">
     <link rel="stylesheet" href="{{ STATIC_URL }}stereoplex/css/themes/stereoplex.css" type="text/css" media="all" charset="utf-8">
@@ -66,17 +65,16 @@
   </div>
   <!-- /header -->
 
-  <div class="container_16">
-    <div class="grid_9 suffix_1">
+  <div>
+    <div>
       <div class="content">
             {% block content %}{% endblock %}
       </div>
       <!-- /content -->
 
     </div>
-    <!-- /grid_9 -->
 
-    <div id="right-rail" class="grid_6">
+    <div id="right-rail">
 
       <h4>{% trans "About" %}</h4>
       <p>{{ BLOG_SETTINGS.about }}</p>
@@ -159,13 +157,10 @@
       {% endcache %}
 
     </div>
-    <!-- /grid_6 -->
   </div>
-  <!-- /container_16 -->
 
   {% endblock %}
   </div>
-  <!-- /body-container -->
 
   <div id="footer">
     <p>
@@ -174,7 +169,6 @@
       {% endcache %}
     </p>
   </div>
-  <!-- /footer -->
 
   <!-- google analtyics -->
   {% cache 7200 "base.analytics" %}
