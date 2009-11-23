@@ -29,3 +29,7 @@ div.content {
     width: 600px;
     float: left;
 }
+
+#right-rail ul li {
+    list-style-type: none;
+}
