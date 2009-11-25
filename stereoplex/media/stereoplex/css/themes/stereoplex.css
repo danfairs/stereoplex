@@ -1,6 +1,7 @@
 body {
     font-family: "Myriad Pro", "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
-    font-size: 100%;
+    font-size: 15px;
+    padding: 0 30px 0 30px;
 }
 
 #logo h1 a {
@@ -12,24 +13,44 @@ body {
     float: left;   
 }
 
-#header {
+/*#header {
     background: transparent url("../../img/rocks.jpg") no-repeat;
     width: 800px;
     height: 230px;
 }
-
+*/
 blockquote {
 	background: #f5f5f5;
-	border-left: 0.8em solid #ccc;
-	font: italic 110% "Myriad Pro", "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;;
-	padding: 0.75em;    
+	border-left: 15px solid #ccc;
+	font-size: 110%;
+	font-style: italic;
+	padding: 30px 0 30px 30px;
+	margin: 30px 0 30px 30px;
 }
 
 div.content {
     width: 600px;
     float: left;
+    padding-left: 30px;
+}
+
+div.date {
+    background: #f5f5f5;
+}
+
+#nav li {
+    display: inline;
+}
+
+#right-rail {
+    text-align: right;
 }
 
 #right-rail ul li {
     list-style-type: none;
+}
+
+#right-rail p {
+    font-size: 11px;
+    line-height: 14px;
 }
