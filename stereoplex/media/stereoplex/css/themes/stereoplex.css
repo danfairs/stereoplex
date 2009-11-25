@@ -36,6 +36,11 @@ div.content {
 
 div.date {
     background: #f5f5f5;
+    color: #777;
+    padding: 10px;
+    font-family: "Georgia", "Times New Roman", serif;
+    font-style: italic;
+    text-align: right;
 }
 
 #nav li {
