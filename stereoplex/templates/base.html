@@ -50,17 +50,17 @@
     <!-- /logo -->
 
     <div id="header" class="clearfix">
-      <div id="nav">
-        {% cache 3600 "base.navbars" %}
-        {% navbars %}
-        {% endcache %}
-      </div>
-      <!-- /nav -->
 
   </div>
   <!-- /header -->
 
   <div>
+    <div id="nav">
+      {% cache 3600 "base.navbars" %}
+      {% navbars %}
+      {% endcache %}
+    </div>
+    <!-- /nav -->
     <div class="content">
           {% block content %}{% endblock %}
     </div>
