@@ -2,10 +2,11 @@ body {
     font-family: "Myriad Pro", "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
     font-size: 15px;
     padding: 0 30px 0 30px;
+    line-height: 20px;
+    text-align: justify;
 }
 
 #logo h1 a {
-    background: transparent url("../../img/stereoplex-vertical.png") no-repeat; 
     display: block;
     height: 448px;
     width: 100px;
@@ -13,12 +14,6 @@ body {
     float: left;   
 }
 
-/*#header {
-    background: transparent url("../../img/rocks.jpg") no-repeat;
-    width: 800px;
-    height: 230px;
-}
-*/
 blockquote {
 	background: #f5f5f5;
 	border-left: 15px solid #ccc;
@@ -31,15 +26,36 @@ blockquote {
 div.content {
     width: 600px;
     float: left;
-    padding-left: 30px;
+    padding-left: 50px;
 }
 
 div.date {
-    background: #f5f5f5;
-    color: #777;
-    padding: 10px;
     font-family: "Georgia", "Times New Roman", serif;
     font-style: italic;
+    text-align: right;
+    font-size: 80%;
+}
+
+ul.navbar-one {
+    margin: 0;
+    padding: 0;
+}
+
+h4 {
+    margin: 0;
+}
+
+#bleeder {
+    z-index: -1;
+}
+
+#header {
+    border: none;
+}
+
+#nav {
+    margin: 0;
+    padding: 0;
     text-align: right;
 }
 
@@ -48,7 +64,10 @@ div.date {
 }
 
 #right-rail {
-    text-align: right;
+    background: transparent url("../../img/stereoplex-vertical.png") no-repeat; 
+    float: left;
+    padding-left: 110px;
+    margin-left: 20px;
 }
 
 #right-rail ul li {
@@ -58,4 +77,8 @@ div.date {
 #right-rail p {
     font-size: 11px;
     line-height: 14px;
+}
+
+#footer {
+    clear: left;
 }
