@@ -61,6 +61,8 @@ h4 {
 
 #nav li {
     display: inline;
+    margin-right: 0;
+    margin-left: 20px;
 }
 
 #right-rail {
