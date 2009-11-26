@@ -50,31 +50,25 @@
 
       <div>
         <div class="content">
-          <div id="nav">
-            {% cache 3600 "base.navbars" %}
-            {% navbars %}
-            {% endcache %}
-          </div>
-          <!-- /nav -->
           {% block content %}{% endblock %}
         </div>
         <!-- /content -->
 
         <div id="right-rail">
-          <h4>{% trans "Search" %}</h4>
+          <h4 class="search">{% trans "Search" %}</h4>
           <form action="/search/" method="GET">
             <input type="text" name="q" value="{{ search_term }}" /><input type="submit" class="button" value="Search" />
           </form>
 
+          {% if BLOG_SETTINGS.about %}
           <h4>{% trans "About" %}</h4>
           <p>{{ BLOG_SETTINGS.about }}</p>
+          {% endif %}
     
-          <h4>Subscribe</h4>
-          <ul>
-            <li><a href="{{ BLOG_SETTINGS.twitter_url }}" title="Follow me on Twitter">Twitter</a></li>
-            <li><a href="{{ BLOG_SETTINGS.rss_url }}" title"Subscribe via RSS">RSS</a></li>
-            <li><a href="{{ BLOG_SETTINGS.email_subscribe_url }}" title="Subscribe via Email">Email</a></li>
-          </ul>
+          <h4>{% trans "Here" %}</h4>
+          {% cache 3600 "base.navbars" %}
+          {% navbars %}
+          {% endcache %}
 
           <h4>{% trans "Elsewhere" %}</h4>
           <ul>
@@ -84,6 +78,13 @@
             <li><a href="{{ item.url }}" rel="me" title="{{ item.name }}">{{ item.name }}</a></li>
             {% endfor %}
             {% endcache %}
+          </ul>
+
+          <h4>Subscribe</h4>
+          <ul>
+            <li><a href="{{ BLOG_SETTINGS.twitter_url }}" title="Follow me on Twitter">Twitter</a></li>
+            <li><a href="{{ BLOG_SETTINGS.rss_url }}" title"Subscribe via RSS">RSS</a></li>
+            <li><a href="{{ BLOG_SETTINGS.email_subscribe_url }}" title="Subscribe via Email">Email</a></li>
           </ul>
 
           <h4>{% trans "Categories" %}</h4>
