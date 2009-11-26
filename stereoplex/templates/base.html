@@ -87,7 +87,7 @@
             <li><a href="{{ BLOG_SETTINGS.email_subscribe_url }}" title="Subscribe via Email">Email</a></li>
           </ul>
 
-          <h4>{% trans "Categories" %}</h4>
+          <h4>{% trans "Tags" %}</h4>
           <ul>
           {% cache 3600 "base.category_list" %}
             {% get_blog_categories as category_list %}
