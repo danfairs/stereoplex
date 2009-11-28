@@ -55,6 +55,15 @@ img {
 
 }
 
+.subscribe {
+    clear: both;
+}
+
+.subscribe li {
+    float: none;
+    display: inline;
+}
+
 #bleeder {
     z-index: -1;
 }
