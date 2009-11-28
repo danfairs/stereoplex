@@ -144,7 +144,7 @@
           <h4>{% trans "Django Popular" %}</h4>
           <ul class="recent-posts">
           {% for item in items.entries %}
-            <li><a href="{{ item.link }}" title="{{ item.title }}">{{ item.title }}</a></li>
+            <li><a href="{{ item.link }}" title="{{ item.title }}">{{ item.title|truncatewords:6 }}</a></li>
           {% endfor %}
           </ul>
           {% endcache %}
