@@ -121,12 +121,14 @@
 
           {% cache 3600 "base.blogroll" %}
           {% get_blogroll 10 as blogroll %}
+          {% if blogroll %}
           <h4>{% trans "BlogRoll" %}</h4>
           <ul class="recent-posts">
           {% for item in blogroll %}
             <li><a href="{{ item.get_absolute_url }}" title="{{ item.name }}">{{ item.name }}</a></li>
           {% endfor %}
           </ul>
+          {% endif %}
           {% endcache %}
 
           {% cache 3600 "bas.popular-posts" %}
