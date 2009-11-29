@@ -1,7 +1,6 @@
 body {
     font-family: "Myriad Pro", "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
     font-size: 15px;
-    padding: 0 30px 0 30px;
     line-height: 20px;
     text-align: justify;
 }
@@ -21,7 +20,7 @@ div.content {
     padding-left: 50px;
 }
 
-div.date {
+.date {
     font-family: "Georgia", "Times New Roman", serif;
     font-style: italic;
     text-align: right;
