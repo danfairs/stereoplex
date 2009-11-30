@@ -34,6 +34,12 @@ form p {
     text-align: right;
 }
 
+.post_list .date {
+    float: none;
+    margin: 0 0 0 -40px;
+    padding: 3px 5px 3px 20px;
+}
+
 .help-text {
     display: block;
 }
