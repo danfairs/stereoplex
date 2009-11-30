@@ -1,8 +1,4 @@
-from threadedcomments.models import ThreadedComment
-from stereoplex.forms import ThreadedCommentCaptchaForm
-
-def get_model():
-    return ThreadedComment
+from stereoplex.forms import CommentCaptchaForm
 
 def get_form():
-    return ThreadedCommentCaptchaForm
+    return CommentCaptchaForm

@@ -1,6 +1,6 @@
-from stereoplex import fields
-from threadedcomments.forms import ThreadedCommentForm
+from stereoplex.fields import ReCaptchaField
+from django.contrib.comments.forms import CommentForm
 
-class ThreadedCommentCaptchaForm(ThreadedCommentForm):
-    recaptcha = fields.ReCaptchaField()
+class CommentCaptchaForm(CommentForm):
+    recaptcha = ReCaptchaField()
     
