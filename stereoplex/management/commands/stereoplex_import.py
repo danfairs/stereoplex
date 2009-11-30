@@ -36,11 +36,10 @@ def clean(v):
 
 class Applier(object):
     
-    text = []
-    
     def __init__(self, context, attribute):
         self.context = context
         self.attribute = attribute
+        self.text = []
         
     def append(self, text):
         self.text.append(text)
@@ -67,8 +66,13 @@ class ApplierStack(Stack):
         return super(ApplierStack, self).push(applier)
         
 class DateApplier(Applier):
+
+    def append(self, text):
+        if self.text:
+            raise ValueError
+        self.text = [text]
     
-    def apply(apply):
+    def apply(self):
         setattr(self.context, self.attribute, datetime.datetime(self.text[0]))
         
         
@@ -154,7 +158,7 @@ class StereoplexHandler(ContentHandler):
         self.appliers.push(TagApplier(self.stack.peek()))
             
     def start_effectiveDate(self, attrs):
-        self.appliers.push(self.stack.peek(), 'publish')
+        self.appliers.push(self.stack.peek(), 'publish', applier_class=DateApplier)
         
     def start_categories(self, attrs):
         pass
