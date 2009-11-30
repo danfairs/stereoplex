@@ -1,21 +1,38 @@
+import datetime
 from optparse import make_option
 from xml.sax import parse
 from xml.sax.handler import ContentHandler
 from django.core.management import BaseCommand
 from django.db import transaction
 from basic.blog.models import Post
+from tagging.models import Tag
 
-def skip_blog(func):
-    def wrapped(self, *args, **kwargs):
-        ob = self.stack[-1]
-        if ob is None:
-            return
-        func(self, *(args + (ob,)), **kwargs)
-    return wrapped
+class Ignore(object):
+    pass
+    
+class Stack(list):
+    push = list.append
+    def peek(self):
+        return self[-1]
+
+class Category(object):
+    def __init__(self, name):
+        self.name = name
+
+class Image(object):
+    pass
+
+class Discussion(object):
+    pass
+    
+class Reply(object):
+    pass
+    
+class Creator(object):
+    pass
 
 def clean(v):
     return v.replace('-', '_')
-
 
 class Applier(object):
     
@@ -33,6 +50,42 @@ class Applier(object):
         
     def __repr__(self):
         return u'<Applier for %s %s = %s' % (self.context.__class__, self.attribute, ''.join(self.text))
+
+
+class ApplierStack(Stack):
+    
+    def apply(self):
+        while self:
+            applier = self.pop()
+            applier.apply()
+
+    def push(self, context, attribute=None, applier_class=Applier):
+        if attribute:
+            applier = applier_class(context, attribute)
+        else:
+            applier = context
+        return super(ApplierStack, self).push(applier)
+        
+class DateApplier(Applier):
+    
+    def apply(apply):
+        setattr(self.context, self.attribute, datetime.datetime(self.text[0]))
+        
+        
+class TagApplier(object):
+    def __init__(self, context):
+        self.context = context
+        
+    def append(self, tag):
+        self.tag = tag
+        
+    def apply(self):
+        try:
+            self.context.save()
+            Tag.objects.add_tag(self.context, self.tag)
+        except AttributeError:
+            # The object wasn't taggable
+            pass
                 
 
 class StereoplexHandler(ContentHandler):
@@ -45,11 +98,22 @@ class StereoplexHandler(ContentHandler):
         'warnForUnpublishedEntries',
         'allowCrossPosting',
         'crossPosts',
+        'alwaysOnTop',
+        'contributors',
+        'creators',
+        'language',
+        'rights',
+        'creation_date',
+        'modification_date',
+        'filename',
     ]
+
+    debug = False
 
     def __init__(self):
         ContentHandler.__init__(self)
-        self.stack = []
+        self.stack = Stack()
+        self.appliers = ApplierStack()
 
     def startElement(self, name, attrs):
         name = clean(name)
@@ -59,138 +123,106 @@ class StereoplexHandler(ContentHandler):
     def endElement(self, name):
         name = clean(name)
         if name not in self.ignored_elements:
-            getattr(self, 'end_%s' % name)()
-        
-    @skip_blog
-    def characters(self, content, ob):
-        ob.append(content)
+            getattr(self, 'end_%s' % name, lambda: 1)()
+            
+    def characters(self, content):
+        self.appliers[-1].append(content)
         
     def start_Blog(self, attrs):
-        self.stack.append(None)
+        self.stack.push(Ignore())
         
-    @skip_blog
-    def start_id(self, attrs, ob):
-        raise NotImplementedError
-
-    @skip_blog
-    def end_id(self, ob):
-        raise NotImplementedError
-
-    @skip_blog
-    def start_title(self, attrs, ob):
-        raise NotImplementedError
-
-    @skip_blog
-    def end_title(self, ob):
-        raise NotImplementedError
-        
-    @skip_blog
-    def start_subject(self, attrs, ob):
-        raise NotImplementedError
-        
-    @skip_blog
-    def end_subject(self, ob):
-        raise NotImplementedError
-        
-    @skip_blog
-    def start_description(self, attrs, ob):
-        raise NotImplementedError
-        
-    @skip_blog
-    def end_description(self, ob):
-        raise NotImplementedError
-        
-    @skip_blog
-    def start_contributors(self, attrs, ob):
-        raise NotImplementedError
-        
-    @skip_blog
-    def end_contributors(self, ob):
-        raise NotImplementedError
-        
-    @skip_blog
-    def start_creators(self, attrs, ob):
-        raise NotImplementedError
-        
-    @skip_blog
-    def end_creators(self, ob):
-        raise NotImplementedError
-        
-    @skip_blog
-    def start_sequence_item(self, attrs, ob):
-        raise NotImplementedError
-        
-    @skip_blog
-    def end_sequence_item(self, ob):
-        raise NotImplementedError
-        
-    @skip_blog
-    def start_effectiveDate(self, attrs, ob):
-        raise NotImplementedError
-        
-    @skip_blog
-    def end_effectiveDate(self, ob):
-        raise NotImplementedError
-        
-    @skip_blog
-    def start_language(self, attrs, ob):
-        raise NotImplementedError
-        
-    @skip_blog
-    def end_language(self, ob):
-        raise NotImplementedError
-        
-    @skip_blog
-    def start_rights(self, attrs, ob):
-        raise NotImplementedError
+    def end_Blog(self):
+        blog = self.stack.pop()
+        self.appliers.apply()
     
-    @skip_blog
-    def end_rights(self, ob):
-        raise NotImplementedError
-        
-    @skip_blog
-    def start_creation_date(self, attrs, ob):
-        raise NotImplementedError
-        
-    @skip_blog
-    def end_creation_date(self, ob):
-        raise NotImplementedError
-        
-    @skip_blog
-    def start_modification_date(self, attrs, ob):
-        raise NotImplementedError
-        
-    @skip_blog
-    def end_modification_date(self, ob):
-        raise NotImplementedError
-        
-    @skip_blog
-    def start_categories(self, attrs, ob):
-        raise NotImplementedError
+    def start_id(self, attrs):
+        self.appliers.push(self.stack.peek(), 'slug')
     
-    @skip_blog
-    def end_categories(self, ob):
-        raise NotImplementedError
-
-    @skip_blog
-    def start_BlogEntry(self, attrs, ob):
-        self.stack.append(Post())
+    def start_title(self, attrs):
+        self.appliers.push(self.stack.peek(), 'title')
+    
+    def start_subject(self, attrs):
+        pass
         
-    @skip_blog
-    def end_BlogEntry(self, ob):
+    def start_description(self, attrs):
+        self.appliers.push(self.stack.peek(), 'tease')
+            
+    def start_creators(self, attrs):
+        raise NotImplementedError
+            
+    def start_sequence_item(self, attrs):
+        self.appliers.push(TagApplier(self.stack.peek()))
+            
+    def start_effectiveDate(self, attrs):
+        self.appliers.push(self.stack.peek(), 'publish')
+        
+    def start_categories(self, attrs):
+        pass
+        
+    def start_BlogEntry(self, attrs):
+        self.stack.push(Post())
+        
+    def end_BlogEntry(self):
         entry = self.stack.pop()
+        self.appliers.apply()
         entry.save()
+        print "Saved %s" % entry.title
         
     def start_body(self, attrs):
-        self.stack.append(Applier(Post(), 'body'))
+        self.appliers.push(self.stack.peek(), 'body')
 
-    def end_body(self):
-        import pdb; pdb.set_trace()
+    def start_SyndicationInformation(self, attrs):
+        self.stack.push(Ignore())
         
-        body = self.stack.pop()
-        body.apply()
-        
+    def end_SyndicationInformation(self):
+        self.stack.pop()
+        self.appliers.apply()
     
+    def start_ATImage(self, attrs):
+        self.stack.push(Image())
+        
+    def end_ATImage(self):
+        image = self.stack.pop()
+        self.appliers.apply()
+        # TODO rewrite the body to refer to the image
+        
+        
+        
+    def start_content_type(self, attrs):
+        self.appliers.push(self.stack.peek(), 'content_type')
+        
+    def start_data(self, attrs):
+        self.appliers.push(self.stack.peek(), 'data')
+        
+    def start_discussion(self, attrs):
+        self.stack.push(Discussion())
+        
+    def end_discussion(self):
+        self.stack.pop()
+        self.appliers.apply()
+        # TODO save
+    
+    def start_reply(self, attrs):
+        self.stack.push(Reply())
+        
+    def end_reply(self):
+        self.stack.pop()
+        # TODO save
+        
+    def start_creator(self, attrs):
+        self.stack.push(Creator())
+        
+    def end_creator(self):
+        self.stack.pop()
+        self.appliers.apply()
+        
+        # TODO save
+        
+    def start_text(self, attrs):
+        self.appliers.push(self.stack.peek(), 'comment')
+        
+    def start_date(self, attrs):
+        self.appliers.push(self.stack.peed(), 'date', applier_class=DateApplier)
         
 class Command(BaseCommand):
     
