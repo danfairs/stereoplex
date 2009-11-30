@@ -8,7 +8,13 @@
       <p
         {% if field.errors %} class="error"{% endif %}
         {% ifequal field.name "honeypot" %} style="display:none;"{% endifequal %}>
-        {{ field.label_tag }} {{ field }}
+        {{ field.label_tag }}
+        {% if field.help_text %} 
+        <span class="help-text">
+          {{ field.help_text }}
+        </span>
+        {% endif %}
+        {{ field }}
       </p>
     {% endif %}
   {% endfor %}

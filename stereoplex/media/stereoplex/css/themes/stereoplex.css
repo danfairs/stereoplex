@@ -20,11 +20,22 @@ div.content {
     padding-left: 50px;
 }
 
-.date {
+form p {
+    padding-bottom: 10px;
+}
+
+.date, .help-text {
     font-family: "Georgia", "Times New Roman", serif;
     font-style: italic;
-    text-align: right;
     font-size: 80%;
+}
+
+.date {
+    text-align: right;
+}
+
+.help-text {
+    display: block;
 }
 
 ul.navbar-one {
