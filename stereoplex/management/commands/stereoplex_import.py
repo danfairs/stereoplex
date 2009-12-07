@@ -1,13 +1,16 @@
+import base64
 import datetime
 from optparse import make_option
 from xml.dom.minidom import parse
 from django.core.management import BaseCommand
+from django.core.files.base import ContentFile
 from django.contrib.auth.models import User
 from django.contrib.comments.models import Comment
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
 from django.db import transaction
 from basic.blog.models import Post
+from basic.media.models import Photo
 from tagging.models import Tag
 
 months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
@@ -50,6 +53,11 @@ class Command(BaseCommand):
         self.author = user
         dom = parse(options['file'])
         
+        # Create all the images
+        images = []
+        for image in dom.getElementsByTagName('ATImage'):
+            images.append(self.image(image))
+        
         site = Site.objects.get_current()
         for entry in dom.getElementsByTagName('BlogEntry'):
             post = self.entry(entry)
@@ -61,17 +69,19 @@ class Command(BaseCommand):
                     comment_user = user
                 else:
                     comment_user = None
-                comment = Comment(
-                    user_name=childElement(comment, 'name'),
-                    user=comment_user,
-                    comment=childElement(comment, 'text'),
-                    content_object=post,
-                    site=site,
-                    submit_date=submit_date,
-                )
-                comment.save()
-                    
-            
+                ct = ContentType.objects.get_for_model(post)
+                if not Comment.objects.filter(object_pk=post.pk, content_type=ct, submit_date=submit_date):
+                    # cheat, but works
+                    comment = Comment(
+                        user_name=childElement(comment, 'name'),
+                        user=comment_user,
+                        comment=childElement(comment, 'text'),
+                        content_object=post,
+                        site=site,
+                        submit_date=submit_date,
+                    )
+                    comment.save()
+
     def entry(self, entry):
         post, created = Post.objects.get_or_create(slug=childElement(entry, 'id'))
         if not created:
@@ -85,7 +95,16 @@ class Command(BaseCommand):
         post.save()
         return post
 
-        
+    def image(self, image):
+        image_id = childElement(image, 'id')
+        photo, created = Photo.objects.get_or_create(slug=image_id)
+        if not created:
+            return photo
+        photo.title = childElement(image, 'title')
+        photo.description = photo.title
+        file_content = ContentFile(base64.b64decode(childElement(image, 'data')))
+        photo.photo.save(image_id, file_content)
+        photo.save()
         
         
         
