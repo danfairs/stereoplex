@@ -1,3 +1,4 @@
+import re
 import base64
 import datetime
 from optparse import make_option
@@ -54,13 +55,13 @@ class Command(BaseCommand):
         dom = parse(options['file'])
         
         # Create all the images
-        images = []
+        images = {}
         for image in dom.getElementsByTagName('ATImage'):
-            images.append(self.image(image))
+            images.update(dict([self.image(image)]))
         
         site = Site.objects.get_current()
         for entry in dom.getElementsByTagName('BlogEntry'):
-            post = self.entry(entry)
+            post = self.entry(entry, images)
             comments = entry.getElementsByTagName('reply')
             for comment in comments:
                 user_id = childElement(comment, 'id')
@@ -82,7 +83,7 @@ class Command(BaseCommand):
                     )
                     comment.save()
 
-    def entry(self, entry):
+    def entry(self, entry, images):
         post, created = Post.objects.get_or_create(slug=childElement(entry, 'id'))
         if not created:
             return post
@@ -91,7 +92,13 @@ class Command(BaseCommand):
         post.teaser = childElement(entry, 'description')
         post.publish = childDateElement(entry, 'effectiveDate')
         post.author = self.author
-        post.body = childElement(entry, 'body')
+        body = childElement(entry, 'body')
+        match = re.search(r'<img.*src=["\']([\w\.]*)["\']', body)
+        while match:
+            rpl = '<inline type="media.photo" id="%s" class="small_left"' % images[match.groups()[0]]
+            body = body[:match.start()] + rpl + body[match.end():] 
+            match = re.search(r'<img.*src=["\']([\w\.]*)["\']', body)
+        post.body = body
         post.save()
         return post
 
@@ -99,12 +106,13 @@ class Command(BaseCommand):
         image_id = childElement(image, 'id')
         photo, created = Photo.objects.get_or_create(slug=image_id)
         if not created:
-            return photo
+            return image_id, photo.pk
         photo.title = childElement(image, 'title')
         photo.description = photo.title
         file_content = ContentFile(base64.b64decode(childElement(image, 'data')))
         photo.photo.save(image_id, file_content)
         photo.save()
+        return image_id, photo.pk
         
         
         
