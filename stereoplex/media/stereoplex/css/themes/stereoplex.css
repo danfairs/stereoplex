@@ -141,3 +141,7 @@ ul.navbar-one li {
 #footer {
     clear: left;
 }
+
+#search-form input {
+    font-size: 120%;
+}

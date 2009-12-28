@@ -60,8 +60,8 @@
 
         <div id="right-rail">
           <h4 class="search">{% trans "Search" %}</h4>
-          <form action="/search/" method="GET">
-            <input type="text" name="q" value="{{ search_term }}" /><input type="submit" class="button" value="Search" />
+          <form action="/search/" method="GET" id="search-form">
+            <input type="search" name="q" value="{{ search_term }}" /><input type="submit" class="button" value="Search" />
           </form>
 
           {% if BLOG_SETTINGS.about %}
