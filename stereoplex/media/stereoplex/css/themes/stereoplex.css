@@ -61,6 +61,12 @@ img {
     display: block;
 }
 
+pre {
+    background-color: #eee;
+    border: 1px solid #ccc;
+    margin: 10px 0 10px 0;
+}
+
 .post-img {
     margin: 0;
     padding: 0;
