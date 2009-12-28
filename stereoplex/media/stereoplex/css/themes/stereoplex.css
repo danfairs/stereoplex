@@ -43,6 +43,14 @@ form p {
     padding: 3px 5px 3px 20px;
 }
 
+.post_list .post {
+    border: none;
+}
+
+.post .teaser {
+    border-bottom: none;
+}
+
 .help-text {
     display: block;
 }
