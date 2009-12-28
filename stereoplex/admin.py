@@ -9,6 +9,7 @@ class TinyPostAdmin(PostAdmin):
         if db_field.name == 'body':
             return db_field.formfield(widget=TinyMCE(
                 attrs={'cols': 80, 'rows': 30},
+                mce_attrs={'theme': 'advanced', 'skin': 'stereoplex'}
             ))
         return super(TinyPostAdmin, self).formfield_for_dbfield(db_field, **kwargs)
     
