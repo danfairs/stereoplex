@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import *
+from mingus.urls import urlpatterns
 
-# URL patterns for stereoplex
-
-urlpatterns = patterns('stereoplex.views',
-  # Add url patterns here
+urlpatterns += patterns('',
+    (r'^tinymce/', include('tinymce.urls')),
 )
+
