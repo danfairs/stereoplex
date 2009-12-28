@@ -114,12 +114,35 @@ pre {
     display: inline;
 }
 
+#body-container {
+    padding: 0;
+}
+
 #bleeder {
     z-index: -1;
 }
 
 #header {
-    display: none;
+    border: none;
+    background-color: black;
+    opacity: 0.5;
+    margin: 0 0 10px 0;
+    padding: 10px 10px 10px 20px;
+    width: auto;
+    color: white;
+}
+
+#header ul {
+    margin: 0;
+    padding: 0;
+}
+
+#header ul li {
+    display: inline;
+}
+
+#header a {
+    color: white;
 }
 
 #nav {
