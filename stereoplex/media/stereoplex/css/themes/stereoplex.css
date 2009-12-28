@@ -102,7 +102,7 @@ pre {
 }
 
 #header {
-    border: none;
+    display: none;
 }
 
 #nav {
