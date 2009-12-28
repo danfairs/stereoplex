@@ -62,7 +62,7 @@ h4.search {
     text-align: center;
 }
 
-.post_list .date {
+.post_list .date, .post .date {
     float: none;
     margin: 0 0 0 0;
     padding: 3px 5px 3px 5px;
@@ -136,8 +136,8 @@ pre {
     opacity: 0.5;
     margin: 0 0 10px 0;
     padding: 10px 10px 10px 20px;
+    color: white;    
     width: auto;
-    color: white;
 }
 
 #header ul {
@@ -187,5 +187,5 @@ ul.navbar-one li {
 }
 
 #search-form input {
-    font-size: 120%;
+    font-size: 18px;
 }
