@@ -74,15 +74,17 @@
           {% navbars %}
           {% endcache %}
 
+          {% cache 3600 "base.profiles" %}
+          {% get_elsewhere_profiles as profiles %}
+          {% if profiles %}
           <h4>{% trans "Elsewhere" %}</h4>
           <ul>
-            {% cache 3600 "base.profiles" %}
-            {% get_elsewhere_profiles as profiles %}
             {% for item in profiles %}
             <li><a href="{{ item.url }}" rel="me" title="{{ item.name }}">{{ item.name }}</a></li>
             {% endfor %}
-            {% endcache %}
           </ul>
+          {% endif %}
+          {% endcache %}
 
           <h4>{% trans "Subscribe" %}</h4>
           <ul>
