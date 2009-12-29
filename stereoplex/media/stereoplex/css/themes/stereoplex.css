@@ -157,6 +157,11 @@ pre {
 
 #header a {
     color: white;
+    opacity: 0.5;
+}
+
+a#home {
+    opacity: 1;
 }
 
 #nav {

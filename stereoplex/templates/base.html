@@ -49,7 +49,7 @@
         var ulWidth = lastLi[0].offsetLeft + lastLi.outerWidth() + ulPadding;
         var left = (e.pageX - div.offset().left) * (ulWidth-divWidth) / divWidth;
         div.scrollLeft(left);
-      });
+      });      
     });
     </script>
     {% block js %}
@@ -75,7 +75,7 @@
         {% cache 3600 "base.post_list" %}
         
         <ul class="recent-posts sc_menu">
-          <li><a href="/" title="Home">Stereoplex</a></li>
+          <li><a href="/" title="Stereoplex Home" id="home">Stereoplex</a></li>
             {% get_latest_posts 8 as post_list %}
             {% for post in post_list %}
               <li><a href="{{ post.get_absolute_url }}" title="{{ post.title }}">{{ post.title }}</a></li>
