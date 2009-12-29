@@ -7,6 +7,9 @@ body {
     font-size: 15px;
     line-height: 20px;
     text-align: justify;
+    background-image: url('../../img/arches.jpg');
+    background-repeat: no-repeat;
+    background-color: white;
 }
 
 blockquote {
@@ -194,9 +197,6 @@ ul.navbar-one li {
 }
 
 #footer {
-    background-image: url('../../img/arches.jpg');
-    background-repeat: no-repeat;
-    background-color: white;
     border-top: 1px solid #ccc;
     clear: left;
 }
