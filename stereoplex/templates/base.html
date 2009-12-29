@@ -80,8 +80,9 @@
             {% for post in post_list %}
               <li><a href="{{ post.get_absolute_url }}" title="{{ post.title }}">{{ post.title }}</a></li>
             {% endfor %}
-          </ul>
-          {% endcache %}
+          <li><a href="{% url stereoplex_all %}">All posts...</a></li>
+        </ul>
+        {% endcache %}
         
       </div>
       <!-- /header -->
