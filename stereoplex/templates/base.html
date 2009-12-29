@@ -28,6 +28,30 @@
     {% endcompress %}
     
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+    <script type="text/javascript">
+    $(function(){
+      //Get our elements for faster access and set overlay width
+      var div = $('div.sc_menu'),
+          ul = $('ul.sc_menu'),
+          // unordered list's left margin
+          ulPadding = 15;
+
+      // Get menu width
+      var divWidth = div.width();
+
+      // Find last container
+      var lastLi = ul.find('li:last-child');
+
+      // When user move mouse over menu
+      div.mousemove(function(e){
+        // As images are loaded ul width increases,
+        // so we recalculate it each time
+        var ulWidth = lastLi[0].offsetLeft + lastLi.outerWidth() + ulPadding;
+        var left = (e.pageX - div.offset().left) * (ulWidth-divWidth) / divWidth;
+        div.scrollLeft(left);
+      });
+    });
+    </script>
     {% block js %}
     {% endblock %}
 
@@ -47,14 +71,14 @@
 
     <div id="body-container" class="clearfix">
     {% block body %}
-      <div id="header" class="clearfix">
+      <div id="header" class="clearfix sc_menu">
         {% cache 3600 "base.post_list" %}
         
-        <ul class="recent-posts">
+        <ul class="recent-posts sc_menu">
           <li><a href="/" title="Home">Stereoplex</a></li>
-            {% get_latest_posts 5 as post_list %}
+            {% get_latest_posts 8 as post_list %}
             {% for post in post_list %}
-              <li><a href="{{ post.get_absolute_url }}" title="{{ post.title }}" class="opacity-{{ forloop.counter }}">{{ post.title }}</a></li>
+              <li><a href="{{ post.get_absolute_url }}" title="{{ post.title }}">{{ post.title }}</a></li>
             {% endfor %}
           </ul>
           {% endcache %}
