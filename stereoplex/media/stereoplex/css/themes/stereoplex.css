@@ -14,7 +14,8 @@ body {
 
 blockquote {
 	background: #f5f5f5;
-	border-left: 15px solid #ccc;
+	border: 1px solid #aaa;
+	border-left: 15px solid #aaa;
 	font-size: 110%;
 	font-style: italic;
 	padding: 30px 0 30px 30px;
