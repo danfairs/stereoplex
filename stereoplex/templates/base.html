@@ -73,8 +73,7 @@
     {% block body %}
       <div id="header" class="clearfix sc_menu">
         {% cache 3600 "base.post_list" %}
-        
-        <ul class="recent-posts sc_menu">
+        <ul class="sc_menu">
           <li><a href="/" title="Stereoplex Home" id="home">Stereoplex</a></li>
             {% get_latest_posts 8 as post_list %}
             {% for post in post_list %}
