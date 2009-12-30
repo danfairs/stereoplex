@@ -108,7 +108,7 @@ class Command(BaseCommand):
         if categories:
             for category_node in categories[0].childNodes:
                 text = category_node.childNodes[0].nodeValue.lower()
-                category, created = Category.objects.get_or_create(slug=text.lower(), defaults={'title': text})
+                category, created = Category.objects.get_or_create(slug=slugify(text), defaults={'title': text})
                 post.categories.add(category)
                 
         # Create a redirect
