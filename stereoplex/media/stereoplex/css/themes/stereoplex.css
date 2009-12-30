@@ -108,6 +108,11 @@ pre {
     margin: 10px 0 10px 0;
 }
 
+.filter-title {
+    background: none;
+    padding: 0;
+}
+
 .post-img {
     margin: 0;
     padding: 0;
