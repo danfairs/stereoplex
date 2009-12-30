@@ -132,7 +132,7 @@
           {% cache 3600 "base.category_list" %}
             {% get_blog_categories as category_list %}
             {% for category in category_list %}
-            <li><a href="{% url basic.blog.views.category_detail category.slug %}" title="{{ category.title }}">{{ category.title }}</a></li>
+            <li><a href="{% url blog_category_detail category.slug %}" title="{{ category.title }}">{{ category.title }}</a></li>
             {% endfor %}
           {% endcache %}
           </ul>
