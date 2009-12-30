@@ -10,6 +10,7 @@ from django.contrib.comments.models import Comment
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
 from django.db import transaction
+from basic.blog.models import Category
 from basic.blog.models import Post
 from basic.media.models import Photo
 from tagging.models import Tag
@@ -100,6 +101,13 @@ class Command(BaseCommand):
             match = re.search(r'<img.*src=["\']([\w\.]*)["\']', body)
         post.body = body
         post.save()
+
+        categories = entry.getElementsByTagName('categories')
+        if categories:
+            for category_node in categories[0].childNodes:
+                text = category_node.childNodes[0].nodeValue.lower()
+                category, created = Category.objects.get_or_create(slug=text.lower(), defaults={'title': text})
+                post.categories.add(category)
         return post
 
     def image(self, image):
