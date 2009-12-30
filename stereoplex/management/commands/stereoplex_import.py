@@ -8,8 +8,10 @@ from django.core.files.base import ContentFile
 from django.contrib.auth.models import User
 from django.contrib.comments.models import Comment
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.redirects.models import Redirect
 from django.contrib.sites.models import Site
 from django.db import transaction
+from django.template.defaultfilters import slugify
 from basic.blog.models import Category
 from basic.blog.models import Post
 from basic.media.models import Photo
@@ -60,7 +62,7 @@ class Command(BaseCommand):
         for image in dom.getElementsByTagName('ATImage'):
             images.update(dict([self.image(image)]))
         
-        site = Site.objects.get_current()
+        self.site = Site.objects.get_current()
         for entry in dom.getElementsByTagName('BlogEntry'):
             post = self.entry(entry, images)
             comments = entry.getElementsByTagName('reply')
@@ -79,14 +81,16 @@ class Command(BaseCommand):
                         user=comment_user,
                         comment=childElement(comment, 'text'),
                         content_object=post,
-                        site=site,
+                        site=self.site,
                         submit_date=submit_date,
                     )
                     comment.save()
 
     def entry(self, entry, images):
         post, created = Post.objects.get_or_create(slug=childElement(entry, 'id'))
-        post.slug = childElement(entry, 'id')
+        old_slug = childElement(entry, 'id')
+        new_slug = slugify(old_slug)
+        post.slug = new_slug
         post.title = childElement(entry, 'title')
         post.tease = childElement(entry, 'description')
         post.publish = childDateElement(entry, 'effectiveDate')
@@ -106,6 +110,12 @@ class Command(BaseCommand):
                 text = category_node.childNodes[0].nodeValue.lower()
                 category, created = Category.objects.get_or_create(slug=text.lower(), defaults={'title': text})
                 post.categories.add(category)
+                
+        # Create a redirect
+        Redirect.objects.get_or_create(
+            old_path='/two-voices/%s' % old_slug, 
+            new_path=post.get_absolute_url(),
+            site=self.site)
         return post
 
     def image(self, image):
