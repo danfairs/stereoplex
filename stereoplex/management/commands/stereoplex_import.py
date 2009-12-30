@@ -96,11 +96,14 @@ class Command(BaseCommand):
         post.publish = childDateElement(entry, 'effectiveDate')
         post.author = self.author
         body = childElement(entry, 'body')
+        
+        # Process inlines
         match = re.search(r'<img.*src=["\']([\w\.]*)["\']', body)
         while match:
             rpl = '<inline type="media.photo" id="%s" class="small_left"' % images[match.groups()[0]]
             body = body[:match.start()] + rpl + body[match.end():] 
             match = re.search(r'<img.*src=["\']([\w\.]*)["\']', body)
+        
         post.body = body
         post.save()
 
