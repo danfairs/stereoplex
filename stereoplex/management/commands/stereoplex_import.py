@@ -86,11 +86,9 @@ class Command(BaseCommand):
 
     def entry(self, entry, images):
         post, created = Post.objects.get_or_create(slug=childElement(entry, 'id'))
-        if not created:
-            return post
         post.slug = childElement(entry, 'id')
         post.title = childElement(entry, 'title')
-        post.teaser = childElement(entry, 'description')
+        post.tease = childElement(entry, 'description')
         post.publish = childDateElement(entry, 'effectiveDate')
         post.author = self.author
         body = childElement(entry, 'body')
