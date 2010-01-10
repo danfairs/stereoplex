@@ -240,3 +240,8 @@ div.highlight pre {
     border: none;
     margin: 0;
 }
+
+pre.code {
+    padding-bottom: 0;
+    padding-top: 7px;
+}
