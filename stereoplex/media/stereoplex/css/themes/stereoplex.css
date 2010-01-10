@@ -239,6 +239,10 @@ ul.navbar-one li {
     content: ", ";
 }
 
+#footer li.last:after {
+    content: ".";
+}
+
 #search-form input {
     font-size: 18px;
 }

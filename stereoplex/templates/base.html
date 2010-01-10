@@ -192,7 +192,7 @@
           {% get_post_archive as dates %}
           <ul>
           {% for date in dates %}
-            <li><a href="{% url blog_archive_month date|date:"Y", date|date:"b" %}" title="{{ date|date:"F Y" }}">{{ date|date:"F Y" }}</a></li>
+            <li {% if forloop.last %}class="last"{% endif %}><a href="{% url blog_archive_month date|date:"Y", date|date:"b" %}" title="{{ date|date:"F Y" }}">{{ date|date:"F Y" }}</a></li>
           {% endfor %}
           </ul>
           {% endcache %}
