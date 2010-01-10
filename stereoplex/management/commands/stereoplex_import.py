@@ -87,9 +87,9 @@ class Command(BaseCommand):
                     comment.save()
 
     def entry(self, entry, images):
-        post, created = Post.objects.get_or_create(slug=childElement(entry, 'id'))
         old_slug = childElement(entry, 'id')
         new_slug = slugify(old_slug)
+        post, created = Post.objects.get_or_create(slug=new_slug)
         post.slug = new_slug
         post.title = childElement(entry, 'title')
         post.tease = childElement(entry, 'description')
