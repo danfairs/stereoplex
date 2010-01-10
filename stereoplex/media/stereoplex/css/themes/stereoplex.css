@@ -230,3 +230,12 @@ ul.navbar-one li {
   padding: 0 4px;
 }
 
+/* Override some pygments stuff */
+div.highlight {
+    background: none;
+}
+
+div.highlight pre {
+    border: none;
+    padding: 0;
+}
