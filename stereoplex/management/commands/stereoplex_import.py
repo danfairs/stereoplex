@@ -88,7 +88,7 @@ class Command(BaseCommand):
 
     def entry(self, entry, images):
         old_slug = childElement(entry, 'id')
-        new_slug = slugify(old_slug)
+        new_slug = slugify(old_slug)[:50]
         post, created = Post.objects.get_or_create(slug=new_slug)
         post.slug = new_slug
         post.title = childElement(entry, 'title')
