@@ -12,7 +12,7 @@
           <a name="c{{ comment.id }}" href="{{ comment.get_absolute_url }}" title="Permalink to {{ comment.person_name }}'s comment" class="count">{{ forloop.counter }}</a> 
           {% if comment.user_url %}<a href="{{ comment.user_url }}">{{ comment.user_name }}</a>{% else %}{{ comment.user_name }}{% endif %} says...
         </h5>
-        {{ comment.comment|urlizetrunc:"60"|markdown:"safe" }}
+        {{ comment.comment|urlizetrunc:"60"|markdown:"replace" }}
         <p class="date">Posted at {{ comment.submit_date|date:"P" }} on {{ comment.submit_date|date:"F j, Y" }}</p>
       </div>
       {% endif %}
