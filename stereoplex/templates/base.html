@@ -163,7 +163,7 @@
           <ul class="recent-posts">
           {% get_popular_posts 10 as popular_post_list %}
           {% for item in popular_post_list %}
-            <li><a href="{{ item.get_absolute_url }}" title="{{ item.title }}">{{ item.title }}</a></li>
+            <li><a href="{{ item.get_absolute_url }}" title="{{ item.title }}">{{ item.title|truncatewords:6 }}</a></li>
           {% endfor %}
           </ul>
           {% endcache %}
